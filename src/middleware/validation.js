@@ -1,19 +1,19 @@
-// // src/middleware/validation.js
+// src/middleware/validation.js
 
-// // Example validation middleware for request data
-// function validateTodoInput(req, res, next) {
-//     const { title, description } = req.body;
+// Example validation middleware for request data
+function validateTodoInput(req, res, next) {
+    const { title, description } = req.body;
   
-//     if (!title || !description) {
-//       return res.status(400).json({ error: 'Title and description are required.' });
-//     }
+    if (!title || !description) {
+      return res.status(400).json({ error: 'Title and description are required.' });
+    }
   
-//     // Add more validation checks as needed
+    // Add more validation checks as needed
   
-//     next();
-//   }
+    next();
+  }
   
-//   module.exports = {
-//     validateTodoInput,
-//   };
+  module.exports = {
+    validateTodoInput,
+  };
   

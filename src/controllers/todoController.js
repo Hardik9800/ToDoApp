@@ -1,13 +1,8 @@
 // src/controllers/todoController.js
 
-// src/controllers/todoController.js
-
-// src/controllers/todoController.js
-
 const db = require('../db/db');
 
 
-// Create a new TODO item
 // Create a new TODO item
 async function createTodo(req, res) {
   try {

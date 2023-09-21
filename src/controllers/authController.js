@@ -1,57 +1,79 @@
-// const auth0 = require('../../config/auth'); // Your Auth0 configuration
-// const express = require('express');
-// const router = express.Router();
+const express = require('express');
+const router = express.Router();
+// authController.js
 
-// // Move the logic for initiating passwordless authentication here
-// router.post('/passwordless', (req, res) => {
-//   const { email } = req.body;
+const db = require('../db/db');
+const nodemailer = require('../../config/nodemailer'); // Import your nodemailer configuration
+const url= 'http://localhost:3000';
+// Generate a random token
+function generateToken() {
+  // Generate a random token here (e.g., using crypto.randomBytes)
+  // Return the generated token as a string"
+   const tokenLength = 32; // Adjust the token length as needed
+  const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  let token = '';
 
-//   // Use the auth0 configuration object here
-//   auth0.passwordlessStart(
-//     {
-//       connection: 'email', // Specify the email connection in Auth0
-//       send: 'link',
-//       email: email, // User's email
-//       redirectUri: 'http://localhost:3000/callback', // Replace with your callback URL
-//     },
-//     function (err, response) {
-//       if (err) {
-//         console.error(err);
-//         return res.status(500).json({ error: 'Error sending magic link.' });
-//       }
-//       // Magic link sent successfully
-//       res.json({ message: 'Magic link sent to your email.' });
-//     }
-//   );
-// });
+  for (let i = 0; i < tokenLength; i++) {
+    const randomIndex = Math.floor(Math.random() * characters.length);
+    token += characters.charAt(randomIndex);
+}
+return token}
+// Send a registration email with a link containing the token
+async function sendRegistrationEmail(email, token) {
+  try {
+    const mailOptions = {
+      from: 'your-email@example.com',
+      to: 'hardikgupta7500@gmail.com',
+      subject: 'Registration Link',
+      text: `Click the following link to complete your registration: ${url}/auth/verify?token=${token}`,
+    };
 
-// // Handle the callback URL after the user clicks the magic link
-// router.get('/callback', (req, res) => {
-//   const { code } = req.query;
+    await nodemailer.sendMail(mailOptions);
+  } catch (error) {
+    console.error('Error sending email:', error);
+    throw new Error('An error occurred while sending the registration email.');
+  }
+}
 
-//   // Use the auth0 configuration object here
-//   auth0.passwordlessLogin(
-//     {
-//       connection: 'email', // Specify the email connection in Auth0
-//       code: code,
-//     },
-//     function (err, response) {
-//       if (err) {
-//         console.error(err);
-//         return res.status(500).json({ error: 'Authentication failed.' });
-//       }
-//       // Successful authentication
-//       res.json({ message: 'Authentication successful', user: response.profile });
-//     }
-//   );
-// });
+// Handle user registration
+async function registerUser(req, res) {
+  const { email } = req.body;
+  const token = generateToken();
 
-// // Logout the user
-// router.get('/logout', (req, res) => {
-//   // Clear the Auth0 session (implement as needed)
-//   // For example, you can use req.logout() or any Auth0-specific logout method.
-//   // Refer to Auth0 documentation for the correct implementation.
-//   res.json({ message: 'Logout successful' });
-// });
+  try {
+    // Insert user data into the "users" table
+    await db.query('INSERT INTO users (email, token) VALUES ($1, $2)', [email, token]);
 
-// module.exports = router;
+    // Send registration email
+    await sendRegistrationEmail(email, token);
+
+    res.status(200).json({ message: 'Registration email sent. Check your inbox.' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'An error occurred during registration.' });
+  }
+}
+
+// Handle token verification
+async function verifyToken(req, res) {
+  const { token } = req.query;
+
+  try {
+    const result = await db.query('SELECT * FROM users WHERE token = $1', [token]);
+
+    if (result.length === 0) {
+      res.status(400).json({ error: 'Token not found or expired.' });
+    } else {
+      // Log the user in (e.g., set a session or issue a token)
+      res.status(200).send('this is a verified user'); // Redirect to the desired page after successful login
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'An error occurred during token verification.' });
+  }
+}
+
+module.exports = {
+  registerUser,
+  verifyToken,
+};
