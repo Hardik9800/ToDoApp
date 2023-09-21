@@ -1,7 +1,5 @@
 // src/controllers/todoController.js
-
 const db = require('../db/db');
-
 
 // Create a new TODO item
 async function createTodo(req, res) {
@@ -13,9 +11,6 @@ async function createTodo(req, res) {
     console.log('Description:', description);
 
     const result = await db.query('INSERT INTO todos (title, description) VALUES ($1, $2)  ', [title, description]);
-
-    
-
     console.log('TODO item created successfully:', result.rows[0]);
     res.status(201).json(result.rows[0]);
   } catch (error) {
@@ -23,10 +18,6 @@ async function createTodo(req, res) {
     return res.status(500).json({ error: 'An error occurred while creating the TODO item.' });
   }
 }
-
-
-
-
 
 // Get all TODO items
 async function getAllTodos(req, res) {

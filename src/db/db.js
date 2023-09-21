@@ -14,7 +14,6 @@ const connection = {
 
 // Create a database connection
 const db = pgp(connection);
-console.log("databse connected");
 
 db.connect()
   .then(obj => {

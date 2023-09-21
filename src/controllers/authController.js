@@ -1,10 +1,9 @@
 const express = require('express');
 const router = express.Router();
-// authController.js
-
 const db = require('../db/db');
 const nodemailer = require('../../config/nodemailer'); // Import your nodemailer configuration
 const url= 'http://localhost:3000';
+
 // Generate a random token
 function generateToken() {
   // Generate a random token here (e.g., using crypto.randomBytes)
@@ -64,8 +63,8 @@ async function verifyToken(req, res) {
     if (result.length === 0) {
       res.status(400).json({ error: 'Token not found or expired.' });
     } else {
-      // Log the user in (e.g., set a session or issue a token)
-      res.status(200).send('this is a verified user'); // Redirect to the desired page after successful login
+      
+      res.status(200).send('this is a verified user'); 
     }
   } catch (error) {
     console.error(error);
