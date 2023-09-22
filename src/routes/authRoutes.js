@@ -9,16 +9,7 @@ router.post('/register', authController.registerUser);
 router.get('/verify', authController.verifyToken);
 
 // Route for logging out (if using sessions)
-router.get('/logout', (req, res) => {
-  // Destroy the session or clear the authentication token here
-  req.session.destroy((err) => {
-    if (err) {
-      console.error('Error during logout:', err);
-      res.status(500).json({ error: 'An error occurred during logout.' });
-    } else {
-      res.redirect('/login'); // Redirect to the login page or another appropriate page
-    }
-  });
-});
+router.post('/login', authController.loginHandler);
+
 
 module.exports = router;

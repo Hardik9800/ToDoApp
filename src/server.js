@@ -3,10 +3,15 @@ const bodyParser = require('body-parser');
 const session = require('express-session');
 const todoRoutes = require('./routes/todoRoutes');
 const authRoutes = require('./routes/authRoutes');
-const { isAuthenticated } = require('./middleware/authentication');
+const jwtMiddleware = require('./middlewares/jwtMiddleware'); // Import jwtMiddleware
+
+//const { isAuthenticated } = require('./middlewares/authentication');
 
 const app = express();
 app.use(express.json());
+app.use(express.urlencoded({ extended: true })); // Parse URL-encoded requests
+
+app.use('/api', jwtMiddleware.authenticateTodo); // Protected API routes
 
 // Routes
 app.use('/auth', authRoutes); // Authentication routes

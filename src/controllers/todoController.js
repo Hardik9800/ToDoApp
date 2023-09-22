@@ -10,12 +10,18 @@ async function createTodo(req, res) {
     console.log('Title:', title);
     console.log('Description:', description);
 
-    const result = await db.query('INSERT INTO todos (title, description) VALUES ($1, $2)  ', [title, description]);
-    console.log('TODO item created successfully:', result.rows[0]);
-    res.status(201).json(result.rows[0]);
+    const result = await db.query('INSERT INTO todos (title, description) VALUES ($1, $2) RETURNING *', [title, description]);
+    // console.log(result);
+    // if (!result.rows || result.rows.length === 0) {
+    //   console.error('Error occurred while creating TODO item: No rows returned.');
+    //   return res.status(500).json({ error: 'An error occurred while creating TODO items.' });
+    // }
+
+    console.log('TODO item created successfully:');
+    return res.status(201).send(result);
   } catch (error) {
-    console.error('Error occurred during database query:', error);
-    return res.status(500).json({ error: 'An error occurred while creating the TODO item.' });
+    console.error(error);
+    res.status(500).json({ error: 'An error occurred while creating TODO items.' });
   }
 }
 

@@ -3,20 +3,21 @@ const router = express.Router();
 const db = require('../db/db');
 const nodemailer = require('../../config/nodemailer'); // Import your nodemailer configuration
 const url= 'http://localhost:3000';
+const jwt = require('jsonwebtoken');
+
+
+const jwtSecret = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
 
 // Generate a random token
-function generateToken() {
-  // Generate a random token here (e.g., using crypto.randomBytes)
-  // Return the generated token as a string"
-   const tokenLength = 32; // Adjust the token length as needed
-  const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-  let token = '';
+function generateToken(email) {
+  // Create a payload containing the user's email
+  const payload = { email };
 
-  for (let i = 0; i < tokenLength; i++) {
-    const randomIndex = Math.floor(Math.random() * characters.length);
-    token += characters.charAt(randomIndex);
+  // Generate a JWT token with the payload and secret, set expiration to 1 hour
+  const token = jwt.sign(payload, jwtSecret, { expiresIn: '1h' });
+
+  return token;
 }
-return token}
 // Send a registration email with a link containing the token
 async function sendRegistrationEmail(email, token) {
   try {
@@ -37,7 +38,7 @@ async function sendRegistrationEmail(email, token) {
 // Handle user registration
 async function registerUser(req, res) {
   const { email } = req.body;
-  const token = generateToken();
+  const token = generateToken(email);
 
   try {
     // Insert user data into the "users" table
@@ -72,7 +73,41 @@ async function verifyToken(req, res) {
   }
 }
 
+// Define the login handler function
+async function loginHandler(req, res) {
+  const { email, token } = req.body;
+
+  // Use your database or data store to verify the email and token
+  const user = await verifyUserCredentials(email, token);
+
+  if (user) {
+    // User is authenticated; you can set a session or JWT token here
+    // For example, you can generate a JWT token and send it in the response
+    //const jwtToken = generateJwtToken(user.email);
+    res.status(200).send('Login successful. You are now logged in.');
+    ;
+  } else {
+    // Authentication failed
+    res.status(401).json({ error: 'Authentication failed. Please check your credentials.' });
+  }
+}
+async function verifyUserCredentials(email, token) {
+  try {
+    const result = await db.query('SELECT * FROM users WHERE email = $1 AND token = $2  ', [email, token]);
+
+    if (result.length === 1) {
+      return result[0]; // User is authenticated
+    }
+  } catch (error) {
+    console.error(error);
+  }
+
+  return null; // Authentication failed
+}
+
+
 module.exports = {
   registerUser,
   verifyToken,
+  loginHandler
 };
