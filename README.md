@@ -52,7 +52,7 @@ Follow these steps to set up and run the To-Do App locally:
 
 6. Start the application:
    ```bash
-      src
+   cd src
    ```
    ```bash
    npm server.js
