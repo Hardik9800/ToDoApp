@@ -5,8 +5,8 @@ const nodemailer = require('../../config/nodemailer'); // Import your nodemailer
 const url= 'http://localhost:3000';
 const jwt = require('jsonwebtoken');
 
-
-const jwtSecret = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+const {secretKey:jwtSecret} = require('../../config/secret'); // Require the secrets module
+  
 
 // Generate a random token
 function generateToken(email) {

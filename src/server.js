@@ -8,6 +8,7 @@ const jwtMiddleware = require('./middlewares/jwtMiddleware'); // Import jwtMiddl
 //const { isAuthenticated } = require('./middlewares/authentication');
 
 const app = express();
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true })); // Parse URL-encoded requests
 
