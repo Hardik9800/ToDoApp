@@ -10,8 +10,8 @@ The To-Do App is a simple web application that allows users to create, manage, a
 - [Usage](#usage)
 - [API Endpoints](#api-endpoints)
 - [Authentication](#authentication)
-- [Contributing](#contributing)
-- [License](#license)
+- [nodemailer](#nodemailer)
+-
 
 ## Prerequisites
 
