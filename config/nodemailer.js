@@ -1,5 +1,6 @@
 // Set up email
 const nodemailer = require('nodemailer');
+const {password:password} = require('../config/secret'); // Require the secret module
 
 const transporter = nodemailer.createTransport({
   service: 'Gmail',
@@ -8,7 +9,7 @@ const transporter = nodemailer.createTransport({
   
   auth: {
       user: 'hardikgupta7500@gmail.com',
-      pass: 'ocljilclqrikwxsq'
+      pass: password
   }
 });
 
