@@ -19,7 +19,7 @@ Before you can run the To-Do App locally, ensure that you have the following pre
 - [npm](https://www.npmjs.com/) (Node Package Manager)
 - [PostgreSQL](https://www.postgresql.org/) (Database)
 - [Postman](https://www.postman.com/) (Postman)
-- (VScode)
+- VScode
 
 
 ## Getting Started
