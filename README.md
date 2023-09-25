@@ -108,8 +108,6 @@ Follow these steps to set up and run the To-Do App locally:
 #### Delete a paricular id
 - Hit the link http://localhost:3000/api/todos/:id with Delete request .
 
-- Use the API endpoints for programmatic access (see [API Endpoints](#api-endpoints)).
-
 ## API Endpoints
 
 The To-Do App provides the following API endpoints:
