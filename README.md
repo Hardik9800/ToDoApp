@@ -88,23 +88,25 @@ Follow these steps to set up and run the To-Do App locally:
 #### Verify
 - paste the link in postman.
 - make the GET request.
-- User will be verified
-- copy the token
+- User will be verified.
+- copy the token.
 
 #### Login
 - log in if you already have an account.
 - Hit the link http://localhost:3000/auth/login with POST request by Sending email and token as json data
-- use wil be logged in
+- use wil be logged in.
 #### Create
+- In Headers Select key as Authorisation and value as Bearer 'Token' (paste the token copied).If you will not do this step you will see unauthorised user as message while sending 
+   requests. 
 - Hit the link http://localhost:3000/api/todos with POST request by Sending title and description of todo as json data
 #### Read All data
 - Hit the link http://localhost:3000/api/todos with GET request.
 #### Read a paricular id
 - Hit the link http://localhost:3000/api/todos/:id with GET request .
 #### Update a paricular id
-- Hit the link http://localhost:3000/api/todos/:id with GET request .
+- Hit the link http://localhost:3000/api/todos/:id with Put request .
 #### Delete a paricular id
-- Hit the link http://localhost:3000/api/todos/:id with GET request .
+- Hit the link http://localhost:3000/api/todos/:id with Delete request .
 
 - Use the API endpoints for programmatic access (see [API Endpoints](#api-endpoints)).
 
