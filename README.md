@@ -1,5 +1,5 @@
 # ToDoApp
- - A simple backend using Express JS to perform simple CreateReadUpdateDelete(CRUD) operations of todos
+ - A simple backend using Express JS to perform simple CreateReadUpdateDelete(CRUD) operations of todos using passwordless register and login.
  - This README provides instructions on how to run the service locally and other important information related to the service.
 
 ## Table of Contents
