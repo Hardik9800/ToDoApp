@@ -1,5 +1,6 @@
 # ToDoApp
-The To-Do App is a simple web application that allows users to create, read, and organize their to-do tasks. This README provides instructions on how to run the service locally and other important information related to the service.
+ - A simple backend using Express JS to perform simple CreateReadUpdateDelete(CRUD) operations of todos
+ - This README provides instructions on how to run the service locally and other important information related to the service.
 
 ## Table of Contents
 
@@ -51,10 +52,17 @@ Follow these steps to set up and run the To-Do App locally:
    
 5. Set up your PostgreSQL database:
    - Create a PostgreSQL database with name todo .
+   - Create two tables with name users and todos with fields email, token in users table and id, task, description in todos table
    - Update the database configuration in `db/db.js` with your database credentials.
      
 6. Setup nodemailer:
-   - create a temporary account in gmail with password
+   - go to myaccount.google.com
+   - go to security
+   - go to App passwords
+   - set the app name to node mailer.You will get a password for your app.Copy it and remove spaces then replace the password in the `config/secret.js` file.
+   - in `src/controllers/authcontroller.js` replace to with your email.
+ 
+   
 
 7. Start the application:
 
@@ -69,23 +77,49 @@ Follow these steps to set up and run the To-Do App locally:
 
 ## Usage
 
-- Access the To-Do App by navigating to `http://localhost:3000` in your web browser.
-- Register a user account or log in if you already have one.
-- Create, view, update, and delete your to-do tasks.
+### Access the To-Do App by navigating to `http://localhost:3000` in your postman:-
+
+#### Register
+- Register a user account by navigating to `http://localhost:3000/auth/register` in your postman .
+- Send email as json data and make POST request
+- You will receive a link in your email
+- Copy the link in email.
+
+#### Verify
+- paste the link in postman.
+- make the GET request.
+- User will be verified
+- copy the token
+
+#### Login
+- log in if you already have an account.
+- Hit the link http://localhost:3000/auth/login with POST request by Sending email and token as json data
+- use wil be logged in
+#### Create
+- Hit the link http://localhost:3000/api/todos with POST request by Sending title and description of todo as json data
+#### Read All data
+- Hit the link http://localhost:3000/api/todos with GET request.
+#### Read a paricular id
+- Hit the link http://localhost:3000/api/todos/:id with GET request .
+#### Update a paricular id
+- Hit the link http://localhost:3000/api/todos/:id with GET request .
+#### Delete a paricular id
+- Hit the link http://localhost:3000/api/todos/:id with GET request .
+
 - Use the API endpoints for programmatic access (see [API Endpoints](#api-endpoints)).
 
 ## API Endpoints
 
 The To-Do App provides the following API endpoints:
 
-- **POST /auth/register**: Register a new user.
-- **get /auth/verify**: To verify user.
-- **POST /auth/login**: Log in and receive an access token.
-- **GET /api/todos**: Get all to-do tasks.
-- **GET /api/todos/:id**: Get a specific to-do task by ID.
-- **POST /api/todos**: Create a new to-do task.
-- **PUT /api/todos/:id**: Update a to-do task by ID.
-- **DELETE /api/todos/:id**: Delete a to-do task by ID.
+- **POST http://localhost:3000/auth/register**: Register a new user.
+- **get http://localhost:3000/auth/verify**: To verify user.
+- **POST http://localhost:3000/auth/login**: Log in and receive an access token.
+- **GET http://localhost:3000/api/todos**: Get all to-do tasks.
+- **GET http://localhost:3000/api/todos/:id**: Get a specific to-do task by ID.
+- **POST http://localhost:3000/api/todos**: Create a new to-do task.
+- **PUT http://localhost:3000/api/todos/:id**: Update a to-do task by ID.
+- **DELETE http://localhost:3000/api/todos/:id**: Delete a to-do task by ID.  
 
 ## Authentication
 
@@ -94,7 +128,7 @@ The To-Do App provides the following API endpoints:
 
 ## Nodemailer
 
-- ToDo App used nodemailer for passwordless register and login
+- ToDo App used nodemailer for passwordless register and login. Passwordless login means entering an email and clicking on a link in the email (a magic link) which takes you to the site and logs you in. 
 
 
 
