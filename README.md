@@ -60,7 +60,7 @@ Follow these steps to set up and run the To-Do App locally:
    - go to security
    - go to App passwords
    - set the app name to node mailer.You will get a password for your app.Copy it and remove spaces then replace the password in the `config/secret.js` file.
-   - in `src/controllers/authcontroller.js` replace to with your email.
+   - in `src/controllers/authcontroller.js` in line 26 replace to: 'hardikgupta7500@gmail.com' with 'your_email@xyz.com' (your email address).
  
    
 
